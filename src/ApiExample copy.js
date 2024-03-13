@@ -19,16 +19,7 @@ const ApiExample = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
-  let filtered = "";
-  if (data.length != 0) {
-    filtered = data.entries.filter((entry) => {
-      return entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase());
-    });
-  } else {
-    filtered = data.entries;
-  }
+  }, []); // Empty dependency array to run the effect only once
 
   return (
     <div>
@@ -40,7 +31,7 @@ const ApiExample = () => {
           <div>
             Suche: <input type="text" value={mySearch} onChange={(e) => setMySearch(e.target.value)} />
           </div><br />
-          {filtered.map((entry) => (
+          {data.entries.map((entry) => (
             <MyComponent key={entry.API + entry.Description} api={entry} />
           ))}
         </div>
