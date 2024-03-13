@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MyComponent from './MyComponent';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const ApiExample = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mySearch, setMySearch] = useState("");
+  const [showOnlyOpen, setShowOnlyOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -22,9 +25,13 @@ const ApiExample = () => {
   }, []);
 
   let filtered = "";
-  if (data.length != 0) {
+  if (data.length !== 0) {
     filtered = data.entries.filter((entry) => {
-      return entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase());
+      if (showOnlyOpen) {
+        return entry.Auth === '' && (entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase()));
+      } else {
+        return entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase());
+      }
     });
   } else {
     filtered = data.entries;
@@ -39,7 +46,13 @@ const ApiExample = () => {
           <h3>{data.count} Public APIs</h3>
           <div>
             Suche: <input type="text" value={mySearch} onChange={(e) => setMySearch(e.target.value)} />
-          </div><br />
+          </div>
+          <div>
+            <ToggleButtonGroup value={showOnlyOpen} exclusive onChange={() => setShowOnlyOpen(!showOnlyOpen)} aria-label="text alignment">
+              <ToggleButton value={true}>Nur APIs mit offenem Auth anzeigen</ToggleButton>
+              <ToggleButton value={false}>Alle anzeigen</ToggleButton>
+            </ToggleButtonGroup>
+          </div>
           {filtered.map((entry) => (
             <MyComponent key={entry.API + entry.Description} api={entry} />
           ))}
