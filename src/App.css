@@ -40,7 +40,9 @@
 
 .card {
   box-shadow: 8px 8px 2px 1px rgba(0, 0, 255, .2);
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
+  margin: 8px;
+  width: 350px;
 }
 
 .card-body {
@@ -53,4 +55,13 @@
 
 .card-text {
   font-style: italic;
+}
+
+.filterfield {
+  margin: 5px 0 5px 0
+}
+
+.filteredList {
+  display: flex;
+  flex-wrap: wrap;
 }

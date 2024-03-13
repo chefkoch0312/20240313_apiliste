@@ -30,7 +30,7 @@ const ApiExample = () => {
       if (showOnlyOpen) {
         return entry.Auth === '' && (entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase()));
       } else {
-        return entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase());
+        return (entry.Description.toLowerCase().includes(mySearch.toLowerCase()) || entry.API.toLowerCase().includes(mySearch.toLowerCase()));
       }
     });
   } else {
@@ -43,19 +43,21 @@ const ApiExample = () => {
         <p>Loading data...</p>
       ) : (
         <div>
-          <h3>{data.count} Public APIs</h3>
-          <div>
+          <h3>{filtered.length} Public APIs</h3>
+          <div className="filterfield">
             Suche: <input type="text" value={mySearch} onChange={(e) => setMySearch(e.target.value)} />
           </div>
-          <div>
+          <div className="filterfield">
             <ToggleButtonGroup value={showOnlyOpen} exclusive onChange={() => setShowOnlyOpen(!showOnlyOpen)} aria-label="text alignment">
               <ToggleButton value={true}>Nur APIs mit offenem Auth anzeigen</ToggleButton>
               <ToggleButton value={false}>Alle anzeigen</ToggleButton>
             </ToggleButtonGroup>
           </div>
-          {filtered.map((entry) => (
-            <MyComponent key={entry.API + entry.Description} api={entry} />
-          ))}
+          <div className="filteredList">
+            {filtered.map((entry) => (
+              <MyComponent key={entry.API + entry.Description} api={entry} />
+            ))}
+          </div>
         </div>
       )}
     </div>
